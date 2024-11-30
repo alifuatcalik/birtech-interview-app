@@ -1,6 +1,6 @@
 // src/app/states/market.reducer.ts
 import { createReducer, on } from '@ngrx/store';
-import { addShelf, addProduct, moveProduct, deleteShelf } from './market.actions';
+import { addShelf, addProduct, moveProduct, deleteShelf, removeProduct } from './market.actions';
 import { Market } from '../models';
 
 export interface AppState {
@@ -217,6 +217,30 @@ export const marketReducer = createReducer(
         }
         return market;
       }),
+    };
+  }),
+  on(removeProduct, (state, { marketId, shelfId, productId }) => {
+    // İlgili market ve shelf'i bul
+    const updatedMarkets = state.markets.map((market) => {
+      if (market.id === marketId) {
+        const updatedShelves = market.shelves.map((shelf) => {
+          if (shelf.id === shelfId) {
+            // Ürünleri filtrele, silinecek ürünü kaldır
+            const updatedProducts = shelf.products.filter(
+              (product) => product.id !== productId
+            );
+            return { ...shelf, products: updatedProducts };
+          }
+          return shelf;
+        });
+        return { ...market, shelves: updatedShelves };
+      }
+      return market;
+    });
+
+    return {
+      ...state,
+      markets: updatedMarkets
     };
   })
 );

@@ -31,3 +31,13 @@ export const moveProduct = createAction(
         targetShelfId: string;  // Yeni reyon ID'si (örneğin R6)
     }>()
 );
+
+// Ürün Silme Action'ı
+export const removeProduct = createAction(
+    '[Market] Remove Product', // Action adı
+    props<{
+        marketId: string;       // Market ID'si
+        shelfId: string;        // Shelf ID'si
+        productId: string;      // Silinecek ürünün ID'si
+    }>()
+);

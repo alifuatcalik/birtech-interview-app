@@ -43,10 +43,16 @@
     </nz-form-control>
   </nz-form-item>
 
-  <!-- Kaydet Butonu -->
   <nz-form-item>
     <nz-form-control>
-      <button nz-button nzType="primary" [disabled]="changeProductForm.invalid">Kaydet</button>
+      <div class="form-actions">
+        <!-- Ürünü Sil Butonu -->
+        <button nz-button nzType="text" class="delete-product"
+          (click)="deleteProduct(selectedMarket.id, selectedShelf.id, selectedProduct.id)">Ürünü sil</button>
+        <!-- Kaydet Butonu -->
+        <button nz-button nzType="primary" [disabled]="changeProductForm.invalid">Kaydet</button>
+      </div>
     </nz-form-control>
   </nz-form-item>
+
 </form>

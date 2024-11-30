@@ -9,7 +9,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../../states/market.reducer';
 import { Market, Product, Shelf } from '../../../../models';
-import { moveProduct } from '../../../../states/market.actions';
+import { moveProduct, removeProduct } from '../../../../states/market.actions';
 
 @Component({
   selector: 'app-change-product',
@@ -86,6 +86,11 @@ export class ChangeProductComponent implements OnInit {
         shelf => shelf.type === this.selectedShelf.type
       );
     }
+  }
+
+  deleteProduct(marketId: string, shelfId: string, productId: string) {
+    this.store.dispatch(removeProduct({ marketId, shelfId, productId }));
+    this.changeProductModalVisibility.emit(false);
   }
 
   // Form submit edildiğinde çağrılır
