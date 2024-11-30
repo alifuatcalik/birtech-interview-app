@@ -3,6 +3,6 @@
     <app-navbar (searchTextChange)="onSearchTextChange($event)"></app-navbar>
   </div>
   <div class="app-content">
-    <app-market-displayer [markets]="markets"></app-market-displayer>
+    <app-market-displayer [markets]="filteredMarkets"></app-market-displayer>
   </div>
 </div>

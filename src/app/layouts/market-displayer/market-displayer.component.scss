@@ -16,10 +16,19 @@
   }
 
   .list {
+
+    .shelf>button>span {
+      color: #FF7F7F;
+    }
+
     .products {
       display: flex;
       align-items: center;
       gap: 5px;
+
+      button {
+        background-color: darkgoldenrod;
+      }
     }
   }
 }

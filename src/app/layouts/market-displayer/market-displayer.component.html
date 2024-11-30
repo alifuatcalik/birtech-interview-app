@@ -16,10 +16,10 @@
         <tbody>
           @for (data of shelf.data; track data) {
           <tr>
-            <td>
+            <td class="shelf">
               {{ data.id }}
               <button nz-button nzType="text" nzShape="circle" (click)="deleteShelf(market, data)">
-                <span nz-icon nzType="delete"></span>
+                <span nz-icon nzType="delete" nzTheme="fill"></span>
               </button>
             </td>
             <td>{{ data.type }}</td>
