@@ -2,10 +2,11 @@ import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/cor
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzMenuModeType, NzMenuModule } from 'ng-zorro-antd/menu';
-import { interval, Subscription, switchMap } from 'rxjs';
-import { ExchangeRateService } from '../../services/exchange-rate.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { CurrencyService } from '../../services/currency-service.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -14,36 +15,63 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
 })
-export class NavbarComponent implements OnInit, OnDestroy {
+export class NavbarComponent implements OnInit {
 
   @Output() searchTextChange = new EventEmitter<string>();
 
   menuMode: NzMenuModeType
-  searchText: string | undefined;
+  searchText: string;
 
-  rates: { usd: number; eur: number; gbp: number } | null = null;
-  subscription!: Subscription;
+  usdToTry: number;
+  eurToTry: number;
+  gbpToTry: number;
 
-  constructor(private exchangeRateService: ExchangeRateService) {
-    this.menuMode = 'horizontal';
-  }
+  private intervalId: any;
+  private subscriptions: Subscription[] = [];
+
+  constructor(
+    private http: HttpClient,
+    private currencyService: CurrencyService
+  ) { }
 
   ngOnInit(): void {
-    // // 30 saniyede bir verileri çek
-    // this.subscription = this.exchangeRateService.getAllRatesToTL().subscribe((data) => {
-    //   console.log(data);
-    //   // this.rates = {
-    //   //   usd: data.usd.data.rates.TRY,
-    //   //   eur: data.eur.data.rates.TRY,
-    //   //   gbp: data.gbp.data.rates.TRY
-    //   // };
-    // });
+    this.menuMode = 'horizontal';
+    this.fetchCurrencyRates();
+
+    // 30 saniyede bir veri çekmek için interval kullanıyoruz
+    this.intervalId = setInterval(() => {
+      this.fetchCurrencyRates();
+    }, 30000); // 30 saniye (30,000 ms)
   }
 
-  ngOnDestroy(): void {
-    // if (this.subscription) {
-    //   this.subscription.unsubscribe();
-    // }
+  // Döviz kurlarını çeken metod
+  fetchCurrencyRates(): void {
+    // USD -> TRY kuru
+    this.subscriptions.push(
+      this.currencyService.getUsdToTry().subscribe(data => {
+        this.usdToTry = data.conversion_rates.TRY;
+      }, error => {
+        console.error('Hata:', error);
+      })
+    );
+
+    // EUR -> TRY kuru
+    this.subscriptions.push(
+      this.currencyService.getEurToTry().subscribe(data => {
+        this.eurToTry = data.conversion_rates.TRY;
+      }, error => {
+        console.error('Hata:', error);
+      })
+    );
+
+    // GBP -> TRY kuru
+    this.subscriptions.push(
+      this.currencyService.getGbpToTry().subscribe(data => {
+        this.gbpToTry = data.conversion_rates.TRY;
+      }, error => {
+        console.error('Hata:', error);
+      })
+    );
   }
 
   onSearchTextChange() {
