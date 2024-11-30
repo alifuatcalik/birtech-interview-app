@@ -1,0 +1,52 @@
+<form [formGroup]="changeProductForm" (ngSubmit)="onSubmit()">
+  <!-- Ürün ID -->
+  <nz-form-item>
+    <nz-form-label nzRequired>Ürün ID</nz-form-label>
+    <nz-form-control>
+      <input nz-input formControlName="productId" [disabled]="true" />
+    </nz-form-control>
+  </nz-form-item>
+
+  <!-- Ürün Adı -->
+  <nz-form-item>
+    <nz-form-label nzRequired>Ürün Adı</nz-form-label>
+    <nz-form-control>
+      <input nz-input formControlName="productName" />
+    </nz-form-control>
+  </nz-form-item>
+
+  <!-- Mevcut Reyon Türü -->
+  <nz-form-item>
+    <nz-form-label nzRequired>Mevcut Reyon Türü</nz-form-label>
+    <nz-form-control>
+      <input nz-input formControlName="currentShelfType" [disabled]="true" />
+    </nz-form-control>
+  </nz-form-item>
+
+  <!-- Taşınacak Market -->
+  <nz-form-item>
+    <nz-form-label nzRequired>Taşınacak Market</nz-form-label>
+    <nz-form-control>
+      <nz-select formControlName="targetMarketId" (ngModelChange)="onTargetMarketChange($event)">
+        <nz-option *ngFor="let market of markets" [nzValue]="market.id" [nzLabel]="market.name"></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+  <!-- Taşınacak Reyon -->
+  <nz-form-item>
+    <nz-form-label nzRequired>Taşınacak Reyon</nz-form-label>
+    <nz-form-control>
+      <nz-select formControlName="targetShelfId">
+        <nz-option *ngFor="let shelf of filteredShelves" [nzValue]="shelf.id" [nzLabel]="shelf.id"></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+  <!-- Kaydet Butonu -->
+  <nz-form-item>
+    <nz-form-control>
+      <button nz-button nzType="primary" [disabled]="changeProductForm.invalid">Kaydet</button>
+    </nz-form-control>
+  </nz-form-item>
+</form>

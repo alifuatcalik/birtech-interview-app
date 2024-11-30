@@ -1,0 +1,83 @@
+<div class="markets">
+  <div *ngFor="let market of markets" class="market">
+    <div class="header">{{market.name}}</div>
+    <div class="list">
+      <nz-table #shelf [nzData]="market.shelves" [nzShowPagination]="false">
+        <thead>
+          <tr>
+            <th>Reyon</th>
+            <th>Tür</th>
+            <th>Ürünler</th>
+            <th>
+              <button nz-button nzType="default" (click)="addShelf(market)">Reyon Ekle</button>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (data of shelf.data; track data) {
+          <tr>
+            <td>
+              {{ data.id }}
+              <button nz-button nzType="text" nzShape="circle" (click)="deleteShelf(market, data)">
+                <span nz-icon nzType="delete"></span>
+              </button>
+            </td>
+            <td>{{ data.type }}</td>
+            <td *ngIf="data.products.length > 0 else noProducts" class="products">
+              <button *ngFor="let product of data.products" nz-button nzType="default"
+                (click)="changeProductInfo(market, data, product)">
+                {{product.name}}
+              </button>
+            </td>
+            <ng-template #noProducts>
+              <td></td>
+            </ng-template>
+            <td>
+              <button nz-button nzType="primary" (click)="addProduct(market, data)">
+                Ürün Ekle
+              </button>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </nz-table>
+    </div>
+  </div>
+</div>
+
+<!-- Add Shelf Modal -->
+<ng-container *ngIf="addShelfModalVisibility">
+  <nz-modal [(nzVisible)]="addShelfModalVisibility" nzTitle="Reyon Ekle" [nzFooter]="null"
+    (nzOnCancel)="modalCancel('addShelfModalVisibility')">
+    <ng-container *nzModalContent>
+      <app-add-shelf [selectedMarket]="selectedMarket"
+        (addShelfModalVisibilityChange)="onAddShelfModalVisibility($event)"></app-add-shelf>
+    </ng-container>
+  </nz-modal>
+</ng-container>
+<!-- End of Add Shelf Modal -->
+
+<!-- Add Product Modal -->
+<ng-container *ngIf="addProductModalVisibility">
+  <nz-modal [(nzVisible)]="addProductModalVisibility" nzTitle="Ürün Ekle" [nzFooter]="null"
+    (nzOnCancel)="modalCancel('addProductModalVisibility')">
+    <ng-container *nzModalContent>
+      <app-add-product [selectedMarket]="selectedMarket" [selectedShelf]="selectedShelf"
+        (addProductModalVisibilityChange)="onAddProductModalVisibility($event)"></app-add-product>
+    </ng-container>
+  </nz-modal>
+</ng-container>
+<!-- End of Add Product Modal -->
+
+<!-- Change Product Modal -->
+<ng-container *ngIf="changeProductModalVisibility">
+  <nz-modal [(nzVisible)]="changeProductModalVisibility" nzTitle="Ürün Bilgilerini Değiştir" [nzFooter]="null"
+    (nzOnCancel)="modalCancel('changeProductModalVisibility')">
+    <ng-container *nzModalContent>
+      <app-change-product [selectedMarket]="selectedMarket" [selectedShelf]="selectedShelf"
+        [selectedProduct]="selectedProduct" [markets]="markets"
+        (changeProductModalVisibility)="onChangeProductModalVisibility($event)"></app-change-product>
+    </ng-container>
+  </nz-modal>
+</ng-container>
+<!-- End of Change Product Modal -->

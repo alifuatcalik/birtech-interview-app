@@ -1,0 +1,37 @@
+<form nz-form [nzLayout]="'vertical'" [formGroup]="addShelfForm">
+    <!-- Reyon Adı -->
+    <nz-form-item>
+        <nz-form-label [nzFor]="'shelfId'">Reyon Adı</nz-form-label>
+        <nz-form-control>
+            <input nz-input id="shelfId" formControlName="shelfId" [disabled]="true" />
+        </nz-form-control>
+    </nz-form-item>
+
+    <!-- Reyon Türü -->
+    <nz-form-item>
+        <nz-form-label [nzFor]="'shelfType'">Reyon Türü</nz-form-label>
+        <nz-form-control>
+            <nz-select id="shelfType" formControlName="shelfType" nzPlaceHolder="Reyon Türü Seçin">
+                <nz-option *ngFor="let type of availableShelfTypes" [nzValue]="type" [nzLabel]="type"></nz-option>
+            </nz-select>
+            <div *ngIf="addShelfForm.get('shelfType')?.invalid && addShelfForm.get('shelfType')?.touched" class="error">
+                Lütfen bir reyon türü seçin.
+            </div>
+        </nz-form-control>
+    </nz-form-item>
+
+    <!-- Market Adı -->
+    <nz-form-item>
+        <nz-form-label [nzFor]="'marketName'">Eklenecek Market</nz-form-label>
+        <nz-form-control>
+            <input nz-input id="marketName" formControlName="marketName" [disabled]="true" />
+        </nz-form-control>
+    </nz-form-item>
+
+    <!-- Submit Butonu -->
+    <nz-form-item>
+        <nz-form-control>
+            <button nz-button nzType="primary" [disabled]="addShelfForm.invalid" (click)="onSubmit()">Kaydet</button>
+        </nz-form-control>
+    </nz-form-item>
+</form>

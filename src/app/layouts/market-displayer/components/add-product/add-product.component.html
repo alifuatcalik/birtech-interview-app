@@ -1,0 +1,34 @@
+<form [formGroup]="addProductForm" nz-form nzLayout="vertical" (ngSubmit)="onSubmit()">
+  <!-- Ürün Id -->
+  <nz-form-item>
+    <nz-form-label [nzFor]="'productId'">Ürün ID</nz-form-label>
+    <nz-form-control>
+      <input nz-input formControlName="productId" id="productId" placeholder="Ürün ID girin" />
+    </nz-form-control>
+  </nz-form-item>
+
+  <!-- Ürün Adı -->
+  <nz-form-item>
+    <nz-form-label [nzFor]="'productName'">Ürün Adı</nz-form-label>
+    <nz-form-control>
+      <input nz-input formControlName="productName" id="productName" placeholder="Ürün Adı girin" />
+    </nz-form-control>
+  </nz-form-item>
+
+  <!-- Eklenecek Reyon -->
+  <nz-form-item>
+    <nz-form-label [nzFor]="'shelfName'">Eklenecek Reyon</nz-form-label>
+    <nz-form-control>
+      <input nz-input formControlName="shelfName" id="shelfName" [disabled]="true" />
+    </nz-form-control>
+  </nz-form-item>
+
+  <!-- Submit Butonu -->
+  <nz-form-item>
+    <nz-form-control>
+      <button nz-button nzType="primary" [disabled]="!addProductForm.valid">
+        Ürün Ekle
+      </button>
+    </nz-form-control>
+  </nz-form-item>
+</form>

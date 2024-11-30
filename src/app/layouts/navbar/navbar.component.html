@@ -1,0 +1,15 @@
+<section class="navbar">
+    <a class="logo">
+        <span nz-icon nzType="shopping-cart"></span>
+        <strong>Supermarket APP</strong>
+    </a>
+    <div class="currency-area">
+    </div>
+    <div class="search-area">
+        <nz-input-group [nzPrefix]="prefixTemplateUser">
+            <input type="text" [(ngModel)]="searchText" nz-input placeholder="Ürün Ara"
+                (ngModelChange)="onSearchTextChange()" />
+        </nz-input-group>
+        <ng-template #prefixTemplateUser><span nz-icon nzType="search"></span></ng-template>
+    </div>
+</section>

@@ -1,0 +1,25 @@
+.markets {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+
+  .market {
+    width: 50%;
+  }
+
+  .header {
+    display: flex;
+    background-color: darkslateblue;
+    justify-content: center;
+    height: 40px;
+    align-items: center;
+  }
+
+  .list {
+    .products {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+  }
+}
